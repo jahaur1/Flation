@@ -7,7 +7,6 @@ The dataset consists of high-resolution hourly hydrometeorological and hydrologi
 ### Coastal Watersheds Dataset
 - **Study Area**: 5 small coastal watersheds (Station IDs: 1015, 703, 708, 693, 626) on Calvert and Hecate Islands (British Columbia, Canada), part of the Northeast Pacific Coastal Temperate Rainforest (NPCTR).
 - **Time Range**: Continuous hourly observations from October 2013 to September 2019 (specific time ranges per station below).
-- **Key Variables**: Hourly precipitation, air temperature, relative humidity, solar radiation, and runoff discharge.
 - **Hydrological Features**: Rainfall-dominated (pluvial) runoff, with varying lake regulation effects, terrain slopes (21.7%–40.3%), forest coverage (29.9%–79.8%), and elevation (59–1012 meters).
 
 #### Station-Specific Time Details
