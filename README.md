@@ -29,5 +29,3 @@ All raw data have undergone standardized preprocessing to ensure reliability and
 ### Raw Data Source
 Coastal Watersheds Raw Data (Oct 2013–Sep 2019): [Hakai Institute Repository](https://catalogue.hakai.org/dataset/ca-cioos_395aa495-de81-4947-b1c5-2c98172a6def)
 
-### Processed Data & Code
-Processed datasets (quality-screened, uncertainty-filtered) and model code are available at: [GitHub Repository](https://github.com/jahaur1/Flation)
