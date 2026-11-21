@@ -8,7 +8,7 @@ Each dataset is evaluated (or trained from scratch with `--mode train`) using it
     - Site 626:  seed 2023
 
 Usage:
-    python reproduce_main_results.py                  # Evaluate provided best-seed checkpoints (default)
+    python reproduce_main_results.py                  # Evaluate checkpoints and print metrics only
     python reproduce_main_results.py --mode train     # Train from scratch with the best seeds and evaluate
 """
 from __future__ import annotations
@@ -267,8 +267,6 @@ def run_site(
         zero_flow_floor=strict_zero_floor(q_scaler),
     ).to(device)
 
-    run_dir = output_dir / f"site_{site}" / f"seed_{seed}"
-    run_dir.mkdir(parents=True, exist_ok=True)
     ckpt_path = ROOT / "checkpoints" / f"site_{site}" / f"seed_{seed}" / "best_model.pth"
 
     t0 = time.time()
@@ -278,6 +276,8 @@ def run_site(
             raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
         model.load_state_dict(torch.load(ckpt_path, map_location=device, weights_only=True), strict=True)
     else:
+        run_dir = output_dir / f"site_{site}" / f"seed_{seed}"
+        run_dir.mkdir(parents=True, exist_ok=True)
         trained_ckpt = run_dir / "best_model.pth"
         best_epoch = train_loop(
             model=model,
@@ -307,11 +307,12 @@ def run_site(
         **{k: metrics[k] for k in METRICS},
     )
 
-    columns = [f"Truth_t{i}" for i in range(1, 25)] + [f"Forecast_t{i}" for i in range(1, 25)]
-    pd.DataFrame(np.concatenate([truth, forecast], axis=1), columns=columns).to_csv(
-        run_dir / "window24.csv", index=False
-    )
-    pd.DataFrame([rec]).to_csv(run_dir / "metrics.csv", index=False)
+    if mode != "evaluate":
+        columns = [f"Truth_t{i}" for i in range(1, 25)] + [f"Forecast_t{i}" for i in range(1, 25)]
+        pd.DataFrame(np.concatenate([truth, forecast], axis=1), columns=columns).to_csv(
+            run_dir / "window24.csv", index=False
+        )
+        pd.DataFrame([rec]).to_csv(run_dir / "metrics.csv", index=False)
 
     print(
         f"[Site {site} | Seed {seed}] ({elapsed}s) | "
@@ -354,7 +355,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     output_dir = args.output_dir.resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if args.mode != "evaluate":
+        output_dir.mkdir(parents=True, exist_ok=True)
 
     selected_device = "cuda" if torch.cuda.is_available() else "cpu"
     device = torch.device(selected_device if args.device == "auto" else args.device)
@@ -370,12 +372,13 @@ def main() -> None:
             torch.cuda.empty_cache()
 
     summary_df = pd.DataFrame(records)[["site", "seed"] + METRICS + ["neg_count", "min_forecast"]]
-    summary_path = output_dir / "main_results_summary.csv"
-    summary_df.to_csv(summary_path, index=False)
 
     print("\n=== Main Results Summary ===")
     print(summary_df.to_string(index=False))
-    print(f"\nSaved summary to: {summary_path}")
+    if args.mode != "evaluate":
+        summary_path = output_dir / "main_results_summary.csv"
+        summary_df.to_csv(summary_path, index=False)
+        print(f"\nSaved summary to: {summary_path}")
 
     ref_path = ROOT / "reference" / "expected_main_results.csv"
     if args.mode == "evaluate" and ref_path.is_file():
