@@ -1,6 +1,4 @@
-# ConstrainedE2EFlation: Physically Constrained Runoff Forecasting
-
-Official implementation and reproducibility package for **ConstrainedE2EFlation**, a single-stage end-to-end runoff forecasting model combining frequency-domain cross-channel interaction (`Flation`), time-domain target-history anchoring and regime gating (`TimeGate`), a differentiable straight-through estimator (`STE`) nonnegativity floor, and physical-space dual balance alignment (`MPE² + Pbias²`).
+# Flation
 
 ## Repository Structure
 

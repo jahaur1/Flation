@@ -10,7 +10,6 @@ FEATURES = ["Rain", "Day_of_month", "Day_of_week", "Hour", "Week", "Qrate"]
 
 
 def prepare_data(path: str, seed: int, scaling: str = 'legacy', batch_size: int = 32) -> tuple:
-    """Keep legacy checkpoints reproducible; use scaling='train' for new experiments."""
     if scaling not in {'legacy', 'train'}:
         raise ValueError("scaling must be 'legacy' or 'train'")
     if batch_size < 1:
