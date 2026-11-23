@@ -1,15 +1,11 @@
 """Reproduce the main experimental results of ConstrainedE2EFlation across all 5 watershed datasets.
 
-Each dataset is evaluated (or trained from scratch with `--mode train`) using its best seed:
-    - Site 1015: seed 2023
-    - Site 708:  seed 2024
-    - Site 703:  seed 2025
-    - Site 693:  seed 2025
-    - Site 626:  seed 2023
+Each dataset is evaluated (or trained from scratch with `--mode train`) using seed 2024:
+    - Sites 1015, 708, 703, 693, and 626
 
 Usage:
     python reproduce_main_results.py                  # Evaluate checkpoints and print metrics only
-    python reproduce_main_results.py --mode train     # Train from scratch with the best seeds and evaluate
+    python reproduce_main_results.py --mode train     # Train from scratch with seed 2024 and evaluate
 """
 from __future__ import annotations
 
@@ -37,11 +33,11 @@ from src.metrics import METRICS, evaluate
 from src.model import Model
 
 BEST_SEEDS: dict[int, int] = {
-    1015: 2023,
+    1015: 2024,
     708: 2024,
-    703: 2025,
-    693: 2025,
-    626: 2023,
+    703: 2024,
+    693: 2024,
+    626: 2024,
 }
 
 MPE_WEIGHT = 0.04
@@ -326,13 +322,13 @@ def run_site(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Reproduce main experimental results across the 5 watershed datasets using their best seeds."
+        description="Reproduce main experimental results across the 5 watershed datasets using seed 2024."
     )
     parser.add_argument(
         "--mode",
         choices=["evaluate", "train"],
         default="evaluate",
-        help="'evaluate' loads provided best-seed checkpoints (default); 'train' retrains from scratch.",
+        help="'evaluate' loads the provided seed-2024 checkpoints (default); 'train' retrains from scratch.",
     )
     parser.add_argument(
         "--sites",

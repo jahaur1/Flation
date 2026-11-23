@@ -8,12 +8,12 @@
 ├── README.md                        # Project documentation
 ├── requirements.txt                 # Python dependencies
 ├── reproduce_main_results.py        # Single-script entry point to reproduce main results on all 5 datasets
-├── checkpoints/                     # Best-seed pretrained weights for each watershed site
-│   ├── site_1015/seed_2023/best_model.pth
+├── checkpoints/                     # Seed-2024 pretrained weights for each watershed site
+│   ├── site_1015/seed_2024/best_model.pth
 │   ├── site_708/seed_2024/best_model.pth
-│   ├── site_703/seed_2025/best_model.pth
-│   ├── site_693/seed_2025/best_model.pth
-│   └── site_626/seed_2023/best_model.pth
+│   ├── site_703/seed_2024/best_model.pth
+│   ├── site_693/seed_2024/best_model.pth
+│   └── site_626/seed_2024/best_model.pth
 ├── data/                            # 5 hourly watershed runoff & rainfall datasets
 │   ├── WTS1015_1.csv
 │   ├── WTS708_1.csv
@@ -56,9 +56,9 @@ pip install -r requirements.txt
 
 ## Reproducing Main Results
 
-All main experimental results across the 5 watershed datasets (`1015`, `708`, `703`, `693`, `626`) can be reproduced directly with a single script using each dataset's best random seed:
+All main experimental results across the 5 watershed datasets (`1015`, `708`, `703`, `693`, `626`) can be reproduced directly with a single script using seed 2024:
 
-### 1. Evaluate Provided Best-Seed Checkpoints (Fast, ~5s on GPU)
+### 1. Evaluate Provided Seed-2024 Checkpoints (Fast, ~5s on GPU)
 
 ```bash
 python reproduce_main_results.py
