@@ -7,7 +7,8 @@
 ├── LICENSE                          # MIT License
 ├── README.md                        # Project documentation
 ├── requirements.txt                 # Python dependencies
-├── reproduce_main_results.py        # Single-script entry point to reproduce main results on all 5 datasets
+├── train.py                         # End-to-end training: TimeGate, STE floor, MPE^2 + Pbias^2
+├── reproduce_main_results.py        # Evaluate the seed-2024 checkpoints on all 5 datasets
 ├── checkpoints/                     # Seed-2024 pretrained weights for each watershed site
 │   ├── site_1015/seed_2024/best_model.pth
 │   ├── site_708/seed_2024/best_model.pth
@@ -66,7 +67,15 @@ python reproduce_main_results.py
 
 This loads the pretrained checkpoints under `checkpoints/` and runs inference on the test split of all 5 datasets. Results are printed to the terminal only and are not saved to files.
 
-### 2. Train from Scratch and Evaluate
+### 2. Train the End-to-End Model from Scratch
+
+`train.py` defines `ConstrainedE2EFlation` and trains every site with seed 2024. Checkpoints and loss curves are written under `outputs/`.
+
+```bash
+python train.py
+```
+
+To train and then evaluate against the test split:
 
 ```bash
 python reproduce_main_results.py --mode train
@@ -75,6 +84,8 @@ python reproduce_main_results.py --mode train
 To run on CPU or on a subset of sites:
 
 ```bash
+python train.py --device cpu
+python train.py --sites 1015 708
 python reproduce_main_results.py --device cpu
 python reproduce_main_results.py --sites 1015 708
 ```
